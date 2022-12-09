@@ -1,0 +1,4 @@
+apiVersion: v2
+name: fluentd
+description: Helm for fluentd
+version: 1.0

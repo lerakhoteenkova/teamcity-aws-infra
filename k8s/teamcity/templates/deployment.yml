@@ -1,0 +1,41 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: teamcity-server
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.label }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Values.label }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.label }}
+    spec:
+      containers:
+        - name: teamcity-server
+          image: jetbrains/teamcity-server
+          ports:
+           - containerPort: 8111
+          volumeMounts:
+            - mountPath: /data/teamcity_server/datadir
+              name: "teamcity-data"
+            - mountPath: /opt/teamcity/logs
+              name: "teamcity-logs"
+      volumes:
+        - name: "teamcity-data"
+          persistentVolumeClaim:
+            claimName: efs-teamcity-pvc
+        - name: "teamcity-logs"
+          hostPath:
+            path: /var/log/pods/
+            type: Directory

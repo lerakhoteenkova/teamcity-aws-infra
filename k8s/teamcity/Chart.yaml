@@ -1,0 +1,4 @@
+apiVersion: v2
+name: teamcity
+description: Helm for teamcity setup
+version: 1.0
