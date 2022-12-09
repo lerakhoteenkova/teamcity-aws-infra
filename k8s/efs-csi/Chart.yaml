@@ -1,4 +1,4 @@
 apiVersion: v2
-name: teamcity
+name: efs-csi
 description: Helm for efs-csi
 version: 1.0
